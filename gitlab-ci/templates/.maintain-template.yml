@@ -1,0 +1,30 @@
+ # templates for maintain
+
+.restart_template:
+  stage: maintain
+  script:
+    - cd $PROJECT_ROOT_PATH/current/$SERVICE_DIRECTORY
+    - docker-compose restart $SERVICE
+
+.view_log_template:
+  stage: maintain
+  script:
+    - cd $PROJECT_ROOT_PATH/current/$SERVICE_DIRECTORY
+    - docker-compose logs --tail=500 $SERVICE
+
+.backup_multiple_volumes:
+  stage: maintain
+  script:
+    - cd $PROJECT_ROOT_PATH/current
+    - echo $PWD
+    - bash shellscripts/backup-multiple-volumes.sh $PROJECT_ROOT_PATH/current $SERVICE_DIRECTORY $PROJECT_ROOT_BACKUP $TARGET_HOST/$SERVICE_DIRECTORY
+
+.restore_volumes:
+  stage: maintain
+  script:
+    - cd $PROJECT_ROOT_BACKUP/$SERVICE_DIRECTORY
+    - LATEST_BACKUP=$(printf '%s\n' backup* | sort -rn | head -n1)
+    - cd $PROJECT_ROOT_PATH/current
+    - echo $PWD
+    - echo $SERVICE_DIRECTORY/$LATEST_BACKUP
+    - bash shellscripts/restore-volume.sh $PROJECT_ROOT_PATH/current $SERVICE_DIRECTORY/$LATEST_BACKUP $PROJECT_ROOT_BACKUP $SERVICE_DIRECTORY

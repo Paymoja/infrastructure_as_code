@@ -1,0 +1,20 @@
+# maintain
+
+back_up_elasticStack:
+  extends:
+    - .backup_multiple_volumes
+    - .development_variables
+    - .rules_development_manual
+  variables:
+    SERVICE_DIRECTORY: zammad-docker
+    TARGET_HOST: "sam@10.10.77.252:$PROJECT_ROOT_BACKUP"
+    
+
+restore_latest_elasticStack_from_dev:
+  extends:
+    - .restore_volumes
+    - .development_variables
+    - .rules_development_manual
+  variables:
+    SERVICE_DIRECTORY: zammad-docker
+

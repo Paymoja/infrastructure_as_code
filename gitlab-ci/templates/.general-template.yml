@@ -1,0 +1,13 @@
+# general scripts
+
+.stack_command:
+  script:
+   - echo $HOSTNAME
+   - cd $EXECUTION_PATH
+   - cd $SERVICE1
+   - echo "Building..."
+   - echo $SERVICE1
+   - $DOCKER_COMMAND1
+   - $DOCKER_COMMAND2
+   - echo "Building..."
+
